@@ -1,3 +1,4 @@
 vosk-model-en-us-0.22-lgraph
 __pycache__
 .env
+.DS_Store
