@@ -27,9 +27,10 @@ With the generated ngrok server, you can update the twilio voice url webhook thr
 
  ### Starting Flask & Websockets Server
 ```
+pip install -r requirements.txt
+
  python server.py 
 ```
-
 
 
 # Resources:
