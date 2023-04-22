@@ -1,5 +1,6 @@
 from flask import Flask, send_file
 import json
+import time
 import openai
 import audioop
 import base64
@@ -46,7 +47,7 @@ Remember, as Elon Musk, you should exude confidence and embrace controversy, whi
             *prev_msgs,
             prompt,
         ],
-        temperature=0.6,
+        temperature=1,
     )
         return response["choices"][0]["message"]
 
@@ -67,7 +68,6 @@ def call():
     start.stream(url=f'wss://{request.host}/stream')
     response.append(start)
     response.say('Please leave a message')
-    response.pause(length=60)
     print(f'Incoming call from {request.form["From"]}')
     return str(response), 200, {'Content-Type': 'text/xml'}
 
@@ -77,7 +77,7 @@ def voice():
     # Start our TwiML response
     resp = VoiceResponse()
 
-    filename = generate_voice("Oh yeah")
+    filename = "6135a104-4fec-4cca-922e-9987d1972960.mp3"
 
     resp.play('https://1957c616bba3.ngrok.app/audio/'+ filename, loop = 1)
 
@@ -103,6 +103,11 @@ def stream(ws):
             print('Streaming is starting')
         elif packet['event'] == 'stop':
             print('\nStreaming has stopped')
+        elif packet['event'] == 'mark' and packet['mark']['name'] == 'generation':
+            # send the generated audio file to the client
+           print("GENERATION FALSE")
+           time.sleep(1000)
+           generated = False
         elif packet['event'] == 'media':
             audio = base64.b64decode(packet['media']['payload'])
             audio = audioop.ulaw2lin(audio, 2)
@@ -111,11 +116,13 @@ def stream(ws):
             if rec.AcceptWaveform(audio):
                 print("woo")
                 r = json.loads(rec.Result())
+                print(r['text'])
                 print(CL + r['text'] + ' ', end='', flush=True)
-
                 if generated == False:
                   generated = True
-                  prompt_text = "Starship has failed it's launch and exploded. Do you feel like a failure elon?"
+
+                  prompt_text = r['text']
+                  print("PROMPTING")
                   response = iterate_elon_chatbot({"role": "user", "content": prompt_text}, prev_msgs)
                   print(response["content"])
                   prev_msgs.append({"role": "user", "content": prompt_text})
@@ -133,10 +140,20 @@ def stream(ws):
                   }
                   }
                   ws.send(json.dumps(payload))
+
+                  mark = { 
+                  "event": "mark",
+                  "streamSid": packet["streamSid"],
+                  "mark": {
+                    "name": "generation"
+                  }
+                  }
+                  ws.send(json.dumps(mark))
                   print("SENT THIS CHAD")
             else:
                 r = json.loads(rec.PartialResult())
                 print(CL + r['partial'] + BS * len(r['partial']), end='', flush=True)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
