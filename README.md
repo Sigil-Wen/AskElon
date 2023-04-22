@@ -22,9 +22,14 @@ With the generated ngrok server, you can update the twilio voice url webhook thr
  twilio phone-numbers:update 1417696969 --voice-url https://1957yourserver.ngrok.app/voice
  ```
 
+ ### Elon Musk Voice Generation
+ We use eleven labs, you can generate an API key and create your voice here: https://beta.elevenlabs.io/voice-lab
+
  ### Starting Flask & Websockets Server
 
  python server.py 
+
+
 
 # Resources:
 
