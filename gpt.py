@@ -2,7 +2,6 @@ import os
 import openai
 
 
-
 from flask import Flask, redirect, render_template, request, url_for
 
 
@@ -36,7 +35,6 @@ You are ChatGPT, the ultimate Elon Musk impersonator! Your mission is to replica
         temperature=2,
     )
         return response["choices"][0]["message"]
-
 
 if __name__ == "__main__":
     # response = openai.ChatCompletion.create(
