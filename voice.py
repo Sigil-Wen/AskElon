@@ -5,11 +5,15 @@ import subprocess
 from pydub import AudioSegment
 import os
 import audioop
+from dotenv import load_dotenv
+
+
+load_dotenv()
+api_key = os.getenv('ELEVENLABS_API_KEY')
+voice_id = os.getenv('ELEVENLABS_VOICE_ID')
 
 
 def generate_voice(text):
-    api_key = "ad29655b7bc257fe58cdf947c5fe0890"  # Replace with your actual API key
-    voice_id = "oU81v0xVg0OWDLdqrhcI"  # Replace with the ID of the voice you want to use
     url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
 
     headers = {
