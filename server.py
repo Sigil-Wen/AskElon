@@ -3,14 +3,13 @@ import base64
 import json
 import os
 import time
-
 import openai
 import vosk
 from dotenv import load_dotenv
 from flask import Flask, send_file
-from flask_sock import ConnectionClosed, Sock
+from flask_sock import Sock
 from twilio.rest import Client
-from twilio.twiml.voice_response import (Connect, Play, Start, Stream, VoiceResponse)
+from twilio.twiml.voice_response import (Connect, Start, VoiceResponse)
 
 from voice import generate_voice, mp4toMULAW
 
