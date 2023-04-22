@@ -1,31 +1,34 @@
-from flask import Flask, send_file
-import json
-import time
-import openai
 import audioop
 import base64
-from twilio.twiml.voice_response import VoiceResponse, Start, Stream, Play, Connect
-from voice import generate_voice, mp4toMULAW
-from flask_sock import Sock, ConnectionClosed
-from twilio.rest import Client
+import json
+import os
+import time
+
+import openai
 import vosk
+from dotenv import load_dotenv
+from flask import Flask, send_file
+from flask_sock import ConnectionClosed, Sock
+from twilio.rest import Client
+from twilio.twiml.voice_response import (Connect, Play, Start, Stream, VoiceResponse)
+
+from voice import generate_voice, mp4toMULAW
 
 app = Flask(__name__)
 sock = Sock(app)
 twilio_client = Client()
 model = vosk.Model('vosk-model-en-us-0.22-lgraph')
 
-openai.organization = "org-3byZV5ElOJO9w1kyAVI0Dea8"
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-openai.api_key = "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"
+
+load_dotenv()
+openai.organization = os.getenv('OPENAI_ORG')
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 CL = '\x1b[0K'
 BS = '\x08'
 
 def iterate_elon_chatbot(prompt, prev_msgs):
-        # smn accoun for prev msgs.
         response = openai.ChatCompletion.create(
-        # model="gpt-4",
         model="gpt-3.5-turbo",
         messages = [
             {"role": "user", "content": """
