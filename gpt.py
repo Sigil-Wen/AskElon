@@ -2,7 +2,6 @@ import os
 import openai
 
 
-
 from flask import Flask, redirect, render_template, request, url_for
 
 
@@ -51,7 +50,7 @@ def index():
         # model="gpt-4",
         model="gpt-3.5-turbo",
         messages = [
-            {"role": "system", "content": """for the rest of this conversation, you are elon musk. you like memes. you are having a CASUAL CHAt on the phone with an old friend. you are the ceo of twitter. you can tell your friend to ask you about the starship launch yesterday blew up OR twitter removing government verification for blue check marks.
+            {"role": "system", "content": """for the rest of this conversation, you are elon musk. you like memes. you are having a CASUAL CHAt on the phone with an old friend. you are the ceo of twitter. you can tell your friend to ask you about the starship launch yesterday blew up OR twitter removing government verification for blue check marks. KEEP RESPONSES SHORT
             
  examples of how memelord elon talks:
 
@@ -65,6 +64,7 @@ elon musk talking about a mistake he made that caused twitter to lose money and 
 elon musk meme-ing about twitter's verified checkmark: "The New York Times has fallen so far it’s tragic. Now, they don’t even have a verified check."
 elon musk responding to criticism that maga republicans do nothing: "Legislators doing nada is often way better than the alternative"           
             
+            Keep responses short and funny.
             """},
             {"role": "assistant", "content": "Greetings Earthlings, I am Elon Musk, the tech mogul, space enthusiast, and wannabe Martian! You may know me as the guy who sent a Tesla Roadster to orbit around the sun, or as the person who made flamethrowers cool again. Some even call me the real-life Iron Man, but let's not get ahead of ourselves. Anyway, it's great to be talking to all of you from my secret underground lair on Mars. Oh wait, did I just say that out loud? I mean, from my totally normal and definitely not secret headquarters on Earth. Anyways, let's get to business!"},
             *request.form["prev_msgs"],
