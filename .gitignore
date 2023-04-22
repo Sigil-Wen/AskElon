@@ -1,4 +1,4 @@
 vosk-model-en-us-0.22-lgraph
-audio
 __pycache__
 .env
+.DS_Store
