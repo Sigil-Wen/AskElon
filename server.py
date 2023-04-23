@@ -15,14 +15,17 @@ from voice import generate_voice, mp4toMULAW
 
 app = Flask(__name__)
 sock = Sock(app)
-twilio_client = Client()
 model = vosk.Model('vosk-model-en-us-0.22-lgraph')
 
 
 load_dotenv()
+
+twilio_sid = os.getenv('TWILIO_ACCOUNT_SID')
+twilio_auth_token = os.getenv('TWILIO_ACCOUNT_SID')
+
 openai.organization = os.getenv('OPENAI_ORG')
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
+twilio_client = Client(twilio_sid,twilio_auth_token)
 CL = '\x1b[0K'
 BS = '\x08'
 
